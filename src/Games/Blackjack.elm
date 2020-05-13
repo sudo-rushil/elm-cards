@@ -1,9 +1,17 @@
-module Games.Blackjack exposing (..)
+module Games.Blackjack exposing (checkTrue)
+
+{-|
+
+@docs checkTrue
+
+-}
 
 import Cards exposing (Card(..), Suit(..))
 import Deck exposing (Deck)
 
 
+{-| Hi
+-}
 checkTrue : String -> Bool
 checkTrue _ =
     True

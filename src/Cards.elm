@@ -1,27 +1,36 @@
-module Cards exposing (..)
+module Cards exposing
+    ( Suit(..), Card(..)
+    , new, defaultNew
+    , viewCard
+    )
 
-{-|
+{-| Card datatypes and views
+
+Use these for defining card-specifc game logic or for displaying specific cards.
+
+
+# Types
+
+@docs Suit, Card
 
 
 # Construction
 
-@docs Suit, Card
+@docs new, defaultNew
+
+
+# Views
+
+@docs viewCard
 
 -}
 
-import Html exposing (Html, text)
-import Html.Attributes exposing (class, style)
 
+{-| A playing card suit type.
 
-checkTrue : String -> Bool
-checkTrue _ =
-    True
+Useful for pattern matching behavior of different games that are based on the suit of the card.
 
-
-
--- CARDS
-
-
+-}
 type Suit
     = Spades
     | Diamonds
@@ -29,11 +38,99 @@ type Suit
     | Hearts
 
 
+{-| A playing card type.
+
+Can either hold a card of suit and face, or a blank card.
+
+Face numbers are designated from 1 to 13 for A-K. Games which treat the ace differently can specify their behavior through the game logic.
+
+The blank variant is useful for displaying cards that have not been flipped over, for instance.
+
+    aceOfSpades =
+        Card Spades 1
+
+    blankCard =
+        Back
+
+-}
 type Card
     = Card Suit Int
     | Back
 
 
+{-| Construct a new card.
+
+The first argument must be one of "spades", "diamonds", "clubs", or "hearts" (any case) for the card suit.
+
+The second argument must be an integer from 1 to 13 for A-K.
+
+Use [Cards.defaultNew](Cards#defaultNew) if you want a `Card` instead of a `Maybe Card`.
+
+    new "spades" 1 == Just (Card Spades 1)
+
+    new "SPADES" 1 == Just (Card Spades 1)
+
+    new "horses" 1 == Nothing
+
+    new "spades" 0 == Nothing
+
+-}
+new : String -> Int -> Maybe Card
+new suit face =
+    let
+        cleanSuit =
+            String.toLower suit
+    in
+    if face < 1 || face > 13 then
+        Nothing
+
+    else
+        case cleanSuit of
+            "spades" ->
+                Just <| Card Spades face
+
+            "diamonds" ->
+                Just <| Card Diamonds face
+
+            "clubs" ->
+                Just <| Card Clubs face
+
+            "hearts" ->
+                Just <| Card Hearts face
+
+            _ ->
+                Nothing
+
+
+{-| Construct a new card with a default argument.
+
+The first input is the default card to use if construction fails.
+
+The remaining two inputs correspond to the two inputs for [Cards.new](Cards#new).
+
+    defaultNew Back "spades" 1 == Card Spades 1
+
+    defaultNew Back "SPADES" 1 == Card Spades 1
+
+    defaultNew Back "horses" 1 == Back
+
+    defaultNew Back "spades" 0 == Back
+
+-}
+defaultNew : Card -> String -> Int -> Card
+defaultNew default suit face =
+    Maybe.withDefault default <| new suit face
+
+
+{-| Return the color and unicode string for a `Card`.
+
+Use this function to write Html views for cards or decks.
+
+    viewCard (defaultNew Back "spades" 1) == ( "black", "🂡" )
+
+    viewCard (defaultNew Back "hearts" 7) == ( "red", "🃗" )
+
+-}
 viewCard : Card -> ( String, String )
 viewCard card =
     case card of

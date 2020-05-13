@@ -1,10 +1,27 @@
-module Deck exposing (..)
+module Deck exposing (Deck)
+
+{-| Deck types, generators, and manipulating functions
+
+
+# Types
+
+@docs Deck
+
+
+# Construction
+
+
+# Manipulation
+
+-}
 
 import Cards exposing (Card(..), Suit(..))
 import Random
 import Random.List exposing (shuffle)
 
 
+{-| A representation of an arbitrary deck or hand of cards
+-}
 type alias Deck =
     List Card
 
