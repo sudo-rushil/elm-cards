@@ -58,6 +58,25 @@ type Card
     | Back
 
 
+resolveSuit : String -> Maybe Suit
+resolveSuit suit =
+    case String.toLower suit of
+        "spades" ->
+            Just Spades
+
+        "diamonds" ->
+            Just Diamonds
+
+        "clubs" ->
+            Just Clubs
+
+        "hearts" ->
+            Just Hearts
+
+        _ ->
+            Nothing
+
+
 {-| Construct a new card.
 
 The first argument must be one of "spades", "diamonds", "clubs", or "hearts" (any case) for the card suit.
@@ -77,28 +96,15 @@ Use [Cards.defaultNew](Cards#defaultNew) if you want a `Card` instead of a `Mayb
 -}
 new : String -> Int -> Maybe Card
 new suit face =
-    let
-        cleanSuit =
-            String.toLower suit
-    in
     if face < 1 || face > 13 then
         Nothing
 
     else
-        case cleanSuit of
-            "spades" ->
-                Just <| Card Spades face
+        case resolveSuit suit of
+            Just card ->
+                Just <| Card card face
 
-            "diamonds" ->
-                Just <| Card Diamonds face
-
-            "clubs" ->
-                Just <| Card Clubs face
-
-            "hearts" ->
-                Just <| Card Hearts face
-
-            _ ->
+            Nothing ->
                 Nothing
 
 
