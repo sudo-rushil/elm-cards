@@ -38,7 +38,7 @@ Score calculated according to standard blackjack rules. If a hand has an ace tha
 
     score [ Card Spades 10, Card Hearts 1 ] == 21
 
-    score [ Card Clubs 5, Card Diamonds 12 ] == 17
+    score [ Card Clubs 7, Card Diamonds 12 ] == 17
 
     score [ Card Spades 5, Card Diamonds 4, Card Clubs 10, Card Hearts 1 ] == 20
 

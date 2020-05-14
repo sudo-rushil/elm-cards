@@ -9,7 +9,3 @@ import Cards
 
 kingOfSpades = Cards.new "spades" 13
 ```
-
-## Todo
-- Games - game specific scoring
-    - Blackjack
