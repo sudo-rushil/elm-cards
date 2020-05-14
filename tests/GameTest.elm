@@ -1,7 +1,8 @@
-module DeckTest exposing (..)
+module GameTest exposing (..)
 
-import Deck exposing (..)
+import Cards exposing (..)
 import Expect
+import Games.Blackjack exposing (..)
 import Test exposing (Test, describe, test)
 
 
