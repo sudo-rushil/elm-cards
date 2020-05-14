@@ -11,7 +11,5 @@ kingOfSpades = Cards.new "spades" 13
 ```
 
 ## Todo
-- Cards - card types and views
-- Deck - deck types (random generator)
 - Games - game specific scoring
     - Blackjack
