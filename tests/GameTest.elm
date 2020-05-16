@@ -15,17 +15,17 @@ blackjackSuite =
     describe "check Blackjack scoring is correct"
         [ test "blackjack score" <|
             \_ ->
-                Expect.equal 21 <| score [ Card Spades 10, Card Hearts 1 ]
+                Expect.equal 21 <| score [ Card Spades Ten, Card Hearts Ace ]
         , test "normal score" <|
             \_ ->
-                Expect.equal 17 <| score [ Card Clubs 7, Card Diamonds 12 ]
+                Expect.equal 17 <| score [ Card Clubs Seven, Card Diamonds Queen ]
         , test "soft score" <|
             \_ ->
-                Expect.equal 20 <| score [ Card Spades 5, Card Diamonds 4, Card Clubs 10, Card Hearts 1 ]
+                Expect.equal 20 <| score [ Card Spades Five, Card Diamonds Four, Card Clubs Ten, Card Hearts Ace ]
         , test "royals round down" <|
             \_ ->
-                Expect.equal 20 <| score [ Card Spades 10, Card Hearts 12 ]
+                Expect.equal 20 <| score [ Card Spades Ten, Card Hearts Queen ]
         , test "busted score" <|
             \_ ->
-                Expect.equal 23 <| score [ Card Spades 10, Card Hearts 12, Card Diamonds 3 ]
+                Expect.equal 23 <| score [ Card Spades Ten, Card Hearts Queen, Card Diamonds Three ]
         ]

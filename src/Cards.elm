@@ -1,5 +1,5 @@
 module Cards exposing
-    ( Suit(..), Card(..)
+    ( Suit(..), Face(..), Card(..)
     , new, defaultNew
     , viewCard
     )
@@ -11,7 +11,7 @@ Use these for defining card-specifc game logic or for displaying specific cards.
 
 # Types
 
-@docs Suit, Card
+@docs Suit, Face, Card
 
 
 # Construction
@@ -38,6 +38,73 @@ type Suit
     | Hearts
 
 
+{-| A playing card face type.
+
+Like the suit type above, this is useful for matching on different card faces, and does not induce an implicit order.
+
+-}
+type Face
+    = Ace
+    | Two
+    | Three
+    | Four
+    | Five
+    | Six
+    | Seven
+    | Eight
+    | Nine
+    | Ten
+    | Jack
+    | Queen
+    | King
+
+
+resolveFace : Int -> Maybe Face
+resolveFace face =
+    case face of
+        1 ->
+            Just Ace
+
+        2 ->
+            Just Two
+
+        3 ->
+            Just Three
+
+        4 ->
+            Just Four
+
+        5 ->
+            Just Five
+
+        6 ->
+            Just Six
+
+        7 ->
+            Just Seven
+
+        8 ->
+            Just Eight
+
+        9 ->
+            Just Nine
+
+        10 ->
+            Just Ten
+
+        11 ->
+            Just Jack
+
+        12 ->
+            Just Queen
+
+        13 ->
+            Just King
+
+        _ ->
+            Nothing
+
+
 {-| A playing card type.
 
 Can either hold a card of suit and face, or a blank card.
@@ -54,7 +121,7 @@ The blank variant is useful for displaying cards that have not been flipped over
 
 -}
 type Card
-    = Card Suit Int
+    = Card Suit Face
     | Back
 
 
@@ -85,9 +152,9 @@ The second argument must be an integer from 1 to 13 for A-K.
 
 Use [Cards.defaultNew](Cards#defaultNew) if you want a `Card` instead of a `Maybe Card`.
 
-    new "spades" 1 == Just (Card Spades 1)
+    new "spades" 1 == Just (Card Spades Ace)
 
-    new "SPADES" 1 == Just (Card Spades 1)
+    new "SPADES" 1 == Just (Card Spades Ace)
 
     new "horses" 1 == Nothing
 
@@ -101,8 +168,13 @@ new suit face =
 
     else
         case resolveSuit suit of
-            Just card ->
-                Just <| Card card face
+            Just cardSuit ->
+                case resolveFace face of
+                    Just cardFace ->
+                        Just <| Card cardSuit cardFace
+
+                    Nothing ->
+                        Nothing
 
             Nothing ->
                 Nothing
@@ -114,9 +186,9 @@ The first input is the default card to use if construction fails.
 
 The remaining two inputs correspond to the two inputs for [Cards.new](Cards#new).
 
-    defaultNew Back "spades" 1 == Card Spades 1
+    defaultNew Back "spades" 1 == Card Spades Ace
 
-    defaultNew Back "SPADES" 1 == Card Spades 1
+    defaultNew Back "SPADES" 1 == Card Spades Ace
 
     defaultNew Back "horses" 1 == Back
 
@@ -153,10 +225,52 @@ viewCard card =
             ( "red", viewFace 0x0001F0D0 value )
 
         Back ->
-            ( "black", viewFace 0x0001F0A0 0 )
+            ( "black", String.fromChar <| Char.fromCode 0x0001F0A0 )
 
 
-viewFace : Int -> Int -> String
+viewFace : Int -> Face -> String
 viewFace suit face =
-    Char.fromCode (suit + face)
+    let
+        faceVal =
+            case face of
+                Ace ->
+                    1
+
+                Two ->
+                    2
+
+                Three ->
+                    3
+
+                Four ->
+                    4
+
+                Five ->
+                    5
+
+                Six ->
+                    6
+
+                Seven ->
+                    7
+
+                Eight ->
+                    8
+
+                Nine ->
+                    9
+
+                Ten ->
+                    10
+
+                Jack ->
+                    11
+
+                Queen ->
+                    12
+
+                King ->
+                    13
+    in
+    Char.fromCode (suit + faceVal)
         |> String.fromChar

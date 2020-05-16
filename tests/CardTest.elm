@@ -16,7 +16,7 @@ cardSuite =
             \_ ->
                 case new "spades" 1 of
                     Just card ->
-                        Expect.equal (Card Spades 1) card
+                        Expect.equal (Card Spades Ace) card
 
                     Nothing ->
                         Expect.fail "Cards.new failed"
@@ -30,7 +30,7 @@ cardSuite =
                         Expect.pass
         , test "construct ace of spades with default" <|
             \_ ->
-                Expect.equal (Card Spades 1) <| defaultNew Back "spades" 1
+                Expect.equal (Card Spades Ace) <| defaultNew Back "spades" 1
         , test "invalid card returns default" <|
             \_ ->
                 Expect.equal Back <| defaultNew Back "horses" 1

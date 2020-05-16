@@ -9,24 +9,58 @@ module Games.Blackjack exposing (score)
 
 -}
 
-import Cards exposing (Card(..), Suit(..))
+import Cards exposing (Card(..), Face(..), Suit(..))
 import Deck exposing (Deck)
 
 
-{-| Hi
--}
+resolveFace : Face -> Int
+resolveFace face =
+    case face of
+        Ace ->
+            11
+
+        Two ->
+            2
+
+        Three ->
+            3
+
+        Four ->
+            4
+
+        Five ->
+            5
+
+        Six ->
+            6
+
+        Seven ->
+            7
+
+        Eight ->
+            8
+
+        Nine ->
+            9
+
+        Ten ->
+            10
+
+        Jack ->
+            10
+
+        Queen ->
+            10
+
+        King ->
+            10
+
+
 cardValue : Card -> Int
 cardValue card =
     case card of
         Card _ face ->
-            if face > 10 then
-                10
-
-            else if face == 1 then
-                11
-
-            else
-                face
+            resolveFace face
 
         _ ->
             0

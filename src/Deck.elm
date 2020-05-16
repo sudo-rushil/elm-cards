@@ -23,7 +23,7 @@ module Deck exposing
 
 -}
 
-import Cards exposing (Card(..), Suit(..))
+import Cards exposing (Card(..), Face(..), Suit(..))
 import Random
 import Random.List exposing (shuffle)
 
@@ -43,17 +43,17 @@ Makes the deck in A-K order
 -}
 fullSuit : Suit -> Deck
 fullSuit suit =
-    List.map (Card suit) <| List.range 1 13
+    List.map (Card suit) [ Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King ]
 
 
 {-| Make a deck of all the cards for a single face.
 
 Makes the deck in standard order.
 
-    fullFace 1 == [ Card Spades 1, Card Diamonds 1, Card Clubs 1, Card Hearts 1 ]
+    fullFace Ace == [ Card Spades Ace, Card Diamonds Ace, Card Clubs Ace, Card Hearts Ace ]
 
 -}
-fullFace : Int -> Deck
+fullFace : Face -> Deck
 fullFace face =
     List.map (\f -> Card f face) <| [ Spades, Diamonds, Clubs, Hearts ]
 
