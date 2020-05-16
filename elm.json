@@ -3,7 +3,7 @@
     "name": "sudo-rushil/elm-cards",
     "summary": "A library of playing card data types and card game scoring",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "exposed-modules": [
         "Cards",
         "Deck",

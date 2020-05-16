@@ -70,11 +70,11 @@ cardValue card =
 
 Score calculated according to standard blackjack rules. If a hand has an ace that is, when scored as an eleven, causes the hand to exceed 21, the ace is acounted as a one.
 
-    score [ Card Spades 10, Card Hearts 1 ] == 21
+    score [ Card Spades Ten, Card Hearts Ace ] == 21
 
-    score [ Card Clubs 7, Card Diamonds 12 ] == 17
+    score [ Card Clubs Seven, Card Diamonds Queen ] == 17
 
-    score [ Card Spades 5, Card Diamonds 4, Card Clubs 10, Card Hearts 1 ] == 20
+    score [ Card Spades Five, Card Diamonds Four, Card Clubs Ten, Card Hearts Ace ] == 20
 
 -}
 score : Deck -> Int

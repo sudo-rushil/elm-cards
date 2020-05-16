@@ -38,7 +38,7 @@ type alias Deck =
 
 Makes the deck in A-K order
 
-    fullSuit Spades == [ Card Spades 1, Card Spades 2, Card Spades 3, Card Spades 4, Card Spades 5, Card Spades 6, Card Spades 7, Card Spades 8, Card Spades 9, Card Spades 10, Card Spades 11, Card Spades 12, Card Spades 13 ]
+    fullSuit Spades == [ Card Spades Ace, Card Spades Two, Card Spades Three, Card Spades Four, Card Spades Five, Card Spades Six, Card Spades Seven, Card Spades Eight, Card Spades Nine, Card Spades Ten, Card Spades Jack, Card Spades Queen, Card Spades King ]
 
 -}
 fullSuit : Suit -> Deck
@@ -60,7 +60,7 @@ fullFace face =
 
 {-| A full 52-card deck in standard order.
 
-    fullDeck == [ Card Spades 1, Card Spades 2, ... ]
+    fullDeck == [ Card Spades Ace, Card Spades Two, ... ]
 
 -}
 fullDeck : Deck
@@ -87,7 +87,7 @@ randomDeck =
 
 {-| Add a card to the end of the deck.
 
-    appendCard (Card Spades 1) [ Card Spades 3, Card Spades 2 ] == [ Card Spades 3, Card Spades 2, Card Spades 1 ]
+    appendCard (Card Spades Ace) [ Card Spades Three, Card Spades Two ] == [ Card Spades Three, Card Spades Two, Card Spades Ace ]
 
 -}
 appendCard : Card -> Deck -> Deck

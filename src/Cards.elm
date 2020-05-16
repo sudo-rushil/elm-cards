@@ -114,7 +114,7 @@ Face numbers are designated from 1 to 13 for A-K. Games which treat the ace diff
 The blank variant is useful for displaying cards that have not been flipped over, for instance.
 
     aceOfSpades =
-        Card Spades 1
+        Card Spades Ace
 
     blankCard =
         Back
