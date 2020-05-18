@@ -1,7 +1,8 @@
 module Deck exposing
     ( Deck
-    , fullSuit, fullFace, fullDeck, randomDeck
-    , appendCard
+    , fullSuit, fullFace, fullDeck, newDeck, randomDeck
+    , draw, appendCard, getCards, map
+    , ShuffledDeck(..)
     )
 
 {-| Deck types, generators, and manipulating functions
@@ -9,17 +10,17 @@ module Deck exposing
 
 # Types
 
-@docs Deck
+@docs Deck, ShuffleDeck
 
 
 # Construction
 
-@docs fullSuit, fullFace, fullDeck, randomDeck
+@docs fullSuit, fullFace, fullDeck, newDeck, randomDeck
 
 
 # Manipulation
 
-@docs appendCard
+@docs draw, appendCard, getCards, map
 
 -}
 
@@ -30,8 +31,14 @@ import Random.List exposing (shuffle)
 
 {-| A representation of an arbitrary deck or hand of cards.
 -}
-type alias Deck =
-    List Card
+type Deck
+    = Deck (List Card)
+
+
+{-| An exposed type for decks which are already shuffled.
+-}
+type ShuffledDeck
+    = ShuffledDeck Deck
 
 
 {-| Make a deck of all the cards in a single suit.
@@ -41,7 +48,7 @@ Makes the deck in A-K order
     fullSuit Spades == [ Card Spades Ace, Card Spades Two, Card Spades Three, Card Spades Four, Card Spades Five, Card Spades Six, Card Spades Seven, Card Spades Eight, Card Spades Nine, Card Spades Ten, Card Spades Jack, Card Spades Queen, Card Spades King ]
 
 -}
-fullSuit : Suit -> Deck
+fullSuit : Suit -> List Card
 fullSuit suit =
     List.map (Card suit) [ Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King ]
 
@@ -53,14 +60,21 @@ Makes the deck in standard order.
     fullFace Ace == [ Card Spades Ace, Card Diamonds Ace, Card Clubs Ace, Card Hearts Ace ]
 
 -}
-fullFace : Face -> Deck
+fullFace : Face -> List Card
 fullFace face =
     List.map (\f -> Card f face) <| [ Spades, Diamonds, Clubs, Hearts ]
 
 
+{-| Create a ShuffledDeck out of a list of cards.
+-}
+newDeck : List Card -> ShuffledDeck
+newDeck cardList =
+    ShuffledDeck <| Deck cardList
+
+
 {-| A full 52-card deck in standard order.
 
-    fullDeck == [ Card Spades Ace, Card Spades Two, ... ]
+    fullDeck == Deck [ Card Spades Ace, Card Spades Two, ... ]
 
 -}
 fullDeck : Deck
@@ -72,6 +86,7 @@ fullDeck =
     in
     List.map fullSuit suits
         |> List.concat
+        |> Deck
 
 
 {-| A 52-card deck in randomly shuffled order.
@@ -80,9 +95,11 @@ fullDeck =
     Random.generate ShuffleDeck randomDeck
 
 -}
-randomDeck : Random.Generator Deck
+randomDeck : Random.Generator ShuffledDeck
 randomDeck =
-    shuffle fullDeck
+    case fullDeck of
+        Deck deck ->
+            Random.map (ShuffledDeck << Deck) <| shuffle deck
 
 
 {-| Add a card to the end of the deck.
@@ -91,5 +108,51 @@ randomDeck =
 
 -}
 appendCard : Card -> Deck -> Deck
-appendCard card deck =
-    List.foldr (::) [ card ] deck
+appendCard card (Deck deck) =
+    Deck <| List.foldr (::) [ card ] deck
+
+
+{-| Draw a card from a ShuffledDeck.
+
+If the deck is empty, the card returned is `Back`.
+
+    topCard =
+        case draw (ShuffledDeck fullDeck) of
+            ( top, _ ) ->
+                top
+    topCard == Card.new "spades" 1
+
+-}
+draw : ShuffledDeck -> ( Card, ShuffledDeck )
+draw (ShuffledDeck deck) =
+    case deck of
+        Deck (x :: xs) ->
+            ( x, ShuffledDeck (Deck xs) )
+
+        -- Reached only if input deck is empty
+        Deck [] ->
+            ( Back, ShuffledDeck deck )
+
+
+{-| Get the internal list of cards from a ShuffledDeck
+
+Not reccomended for direct use.
+
+-}
+getCards : ShuffledDeck -> List Card
+getCards (ShuffledDeck deck) =
+    case deck of
+        Deck cards ->
+            cards
+
+
+{-| Map a function from cards over a ShuffledDeck.
+
+See <Games.Blackjack> for an example use of `Deck.map`
+
+-}
+map : (Card -> a) -> ShuffledDeck -> List a
+map f (ShuffledDeck deck) =
+    case deck of
+        Deck cards ->
+            List.map f cards

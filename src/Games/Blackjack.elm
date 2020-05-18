@@ -10,7 +10,7 @@ module Games.Blackjack exposing (score)
 -}
 
 import Cards exposing (Card(..), Face(..), Suit(..))
-import Deck exposing (Deck)
+import Deck exposing (Deck, ShuffledDeck(..))
 
 
 resolveFace : Face -> Int
@@ -70,19 +70,19 @@ cardValue card =
 
 Score calculated according to standard blackjack rules. If a hand has an ace that is, when scored as an eleven, causes the hand to exceed 21, the ace is acounted as a one.
 
-    score [ Card Spades Ten, Card Hearts Ace ] == 21
+    score <| newDeck [ Card Spades Ten, Card Hearts Ace ] == 21
 
-    score [ Card Clubs Seven, Card Diamonds Queen ] == 17
+    score <| newDeck [ Card Clubs Seven, Card Diamonds Queen ] == 17
 
-    score [ Card Spades Five, Card Diamonds Four, Card Clubs Ten, Card Hearts Ace ] == 20
+    score <| newDeck [ Card Spades Five, Card Diamonds Four, Card Clubs Ten, Card Hearts Ace ] == 20
 
 -}
-score : Deck -> Int
+score : ShuffledDeck -> Int
 score hand =
     let
         raw : List Int
         raw =
-            List.map cardValue hand
+            Deck.map cardValue hand
 
         rawScore : Int
         rawScore =
