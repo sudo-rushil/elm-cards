@@ -1,7 +1,7 @@
 module Deck exposing
     ( Deck
     , fullSuit, fullFace, fullDeck, newDeck, randomDeck
-    , draw, appendCard, getCards, map
+    , draw, appendCard, getCards, map, foldr, foldl
     , ShuffledDeck(..)
     )
 
@@ -20,7 +20,7 @@ module Deck exposing
 
 # Manipulation
 
-@docs draw, appendCard, getCards, map
+@docs draw, appendCard, getCards, map, foldr, foldl
 
 -}
 
@@ -156,3 +156,21 @@ map f (ShuffledDeck deck) =
     case deck of
         Deck cards ->
             List.map f cards
+
+
+{-| Fold a function over a ShuffledDeck from the right.
+-}
+foldr : (Card -> a -> a) -> a -> ShuffledDeck -> a
+foldr f acc (ShuffledDeck deck) =
+    case deck of
+        Deck cards ->
+            List.foldr f acc cards
+
+
+{-| Fold a function over a ShuffledDeck from the left.
+-}
+foldl : (Card -> a -> a) -> a -> ShuffledDeck -> a
+foldl f acc (ShuffledDeck deck) =
+    case deck of
+        Deck cards ->
+            List.foldl f acc cards
