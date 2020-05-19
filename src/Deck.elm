@@ -1,7 +1,7 @@
 module Deck exposing
     ( Deck
     , fullSuit, fullFace, fullDeck, newDeck, randomDeck
-    , draw, appendCard, getCards, map, foldr, foldl
+    , draw, appendCard, getCards, map, foldr, foldl, take
     , ShuffledDeck(..)
     )
 
@@ -20,7 +20,7 @@ module Deck exposing
 
 # Manipulation
 
-@docs draw, appendCard, getCards, map, foldr, foldl
+@docs draw, appendCard, getCards, map, foldr, foldl, take
 
 -}
 
@@ -77,7 +77,7 @@ newDeck cardList =
     fullDeck == Deck [ Card Spades Ace, Card Spades Two, ... ]
 
 -}
-fullDeck : Deck
+fullDeck : ShuffledDeck
 fullDeck =
     let
         suits : List Suit
@@ -87,6 +87,7 @@ fullDeck =
     List.map fullSuit suits
         |> List.concat
         |> Deck
+        |> ShuffledDeck
 
 
 {-| A 52-card deck in randomly shuffled order.
@@ -98,7 +99,7 @@ fullDeck =
 randomDeck : Random.Generator ShuffledDeck
 randomDeck =
     case fullDeck of
-        Deck deck ->
+        ShuffledDeck (Deck deck) ->
             Random.map (ShuffledDeck << Deck) <| shuffle deck
 
 
@@ -107,9 +108,9 @@ randomDeck =
     appendCard (Card Spades Ace) [ Card Spades Three, Card Spades Two ] == [ Card Spades Three, Card Spades Two, Card Spades Ace ]
 
 -}
-appendCard : Card -> Deck -> Deck
-appendCard card (Deck deck) =
-    Deck <| List.foldr (::) [ card ] deck
+appendCard : Card -> ShuffledDeck -> ShuffledDeck
+appendCard card (ShuffledDeck (Deck cards)) =
+    ShuffledDeck << Deck <| List.foldr (::) [ card ] cards
 
 
 {-| Draw a card from a ShuffledDeck.
@@ -174,3 +175,10 @@ foldl f acc (ShuffledDeck deck) =
     case deck of
         Deck cards ->
             List.foldl f acc cards
+
+
+{-| Take some number of cards from the top of a ShuffledDeck
+-}
+take : Int -> ShuffledDeck -> ShuffledDeck
+take int (ShuffledDeck (Deck cards)) =
+    ShuffledDeck << Deck <| List.take int cards
