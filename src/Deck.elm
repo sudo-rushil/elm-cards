@@ -1,8 +1,7 @@
 module Deck exposing
-    ( Deck
+    ( Deck, ShuffledDeck(..)
     , fullSuit, fullFace, fullDeck, newDeck, randomDeck
     , draw, appendCard, getCards, map, foldr, foldl, take
-    , ShuffledDeck(..)
     )
 
 {-| Deck types, generators, and manipulating functions
@@ -10,7 +9,7 @@ module Deck exposing
 
 # Types
 
-@docs Deck, ShuffleDeck
+@docs Deck, ShuffledDeck
 
 
 # Construction
