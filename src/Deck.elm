@@ -23,7 +23,7 @@ module Deck exposing
 
 -}
 
-import Cards exposing (Card(..), Face(..), Suit(..))
+import Cards exposing (Card(..), Face(..), Suit(..), defaultFace)
 import Random
 import Random.List exposing (shuffle)
 
@@ -149,6 +149,10 @@ getCards (ShuffledDeck deck) =
 {-| Map a function from cards over a ShuffledDeck.
 
 See <Games.Blackjack> for an example use of `Deck.map`
+
+    map (\card -> 1) <| newDeck [ Card Spades Ace, Card Heart King ] == [ 1, 1 ]
+
+    map defaultFace <| newDeck [ Card Spades Ace, Card Heart King ] == [ 1, 13 ]
 
 -}
 map : (Card -> a) -> ShuffledDeck -> List a

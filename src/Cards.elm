@@ -1,7 +1,7 @@
 module Cards exposing
     ( Suit(..), Face(..), Card(..)
     , new, defaultNew
-    , viewCard
+    , viewCard, defaultFace
     )
 
 {-| Card datatypes and views
@@ -21,7 +21,7 @@ Use these for defining card-specifc game logic or for displaying specific cards.
 
 # Views
 
-@docs viewCard
+@docs viewCard, defaultFace
 
 -}
 
@@ -103,6 +103,56 @@ resolveFace face =
 
         _ ->
             Nothing
+
+
+{-| Default resoltuion of Faces to integers, in A-K order.
+
+    defaultFace Ace == 1
+
+    defaultFace King == 13
+
+-}
+defaultFace : Face -> Int
+defaultFace face =
+    case face of
+        Ace ->
+            1
+
+        Two ->
+            2
+
+        Three ->
+            3
+
+        Four ->
+            4
+
+        Five ->
+            5
+
+        Six ->
+            6
+
+        Seven ->
+            7
+
+        Eight ->
+            8
+
+        Nine ->
+            9
+
+        Ten ->
+            10
+
+        Jack ->
+            11
+
+        Queen ->
+            12
+
+        King ->
+            13
 
 
 {-| A playing card type.
@@ -232,45 +282,7 @@ viewFace : Int -> Face -> String
 viewFace suit face =
     let
         faceVal =
-            case face of
-                Ace ->
-                    1
-
-                Two ->
-                    2
-
-                Three ->
-                    3
-
-                Four ->
-                    4
-
-                Five ->
-                    5
-
-                Six ->
-                    6
-
-                Seven ->
-                    7
-
-                Eight ->
-                    8
-
-                Nine ->
-                    9
-
-                Ten ->
-                    10
-
-                Jack ->
-                    11
-
-                Queen ->
-                    12
-
-                King ->
-                    13
+            defaultFace face
     in
     Char.fromCode (suit + faceVal)
         |> String.fromChar
