@@ -1,7 +1,7 @@
 module Deck exposing
     ( Deck, ShuffledDeck(..)
     , fullSuit, fullFace, fullDeck, newDeck, randomDeck
-    , draw, appendCard, getCards, map, foldr, foldl, take
+    , draw, appendCard, getCards, map, filter, foldr, foldl, take
     )
 
 {-| Deck types, generators, and manipulating functions
@@ -19,7 +19,7 @@ module Deck exposing
 
 # Manipulation
 
-@docs draw, appendCard, getCards, map, foldr, foldl, take
+@docs draw, appendCard, getCards, map, filter, foldr, foldl, take
 
 -}
 
@@ -181,3 +181,10 @@ foldl f acc (ShuffledDeck deck) =
 take : Int -> ShuffledDeck -> ShuffledDeck
 take int (ShuffledDeck (Deck cards)) =
     ShuffledDeck << Deck <| List.take int cards
+
+
+{-| Filter a ShuffledDeck by a conditional over cards.
+-}
+filter : (Card -> Bool) -> ShuffledDeck -> ShuffledDeck
+filter p (ShuffledDeck (Deck deck)) =
+    ShuffledDeck << Deck <| List.filter p deck
