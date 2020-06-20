@@ -89,6 +89,9 @@ manipulationSuite =
         [ test "check appendCard" <|
             \_ ->
                 Expect.equal (appendCard (Card Spades Four) testDeck) (newDeck [ Card Spades Ace, Card Spades Two, Card Spades Three, Card Spades Four ])
+        , test "check length" <|
+            \_ ->
+                Expect.equal (length testDeck) 3
         , test "check draw" <|
             \_ ->
                 case draw testDeck of
