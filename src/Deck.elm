@@ -1,7 +1,7 @@
 module Deck exposing
     ( Deck, ShuffledDeck(..)
     , fullSuit, fullFace, fullDeck, newDeck, randomDeck
-    , draw, appendCard, getCards, map, filter, foldr, foldl, take
+    , draw, appendCard, length, getCards, map, filter, foldr, foldl, take
     )
 
 {-| Deck types, generators, and manipulating functions
@@ -19,7 +19,7 @@ module Deck exposing
 
 # Manipulation
 
-@docs draw, appendCard, getCards, map, filter, foldr, foldl, take
+@docs draw, appendCard, length, getCards, map, filter, foldr, foldl, take
 
 -}
 
@@ -144,6 +144,13 @@ getCards (ShuffledDeck deck) =
     case deck of
         Deck cards ->
             cards
+
+
+{-| Get the length of the ShuffledDeck
+-}
+length : ShuffledDeck -> Int
+length (ShuffledDeck (Deck cards)) =
+    List.length cards
 
 
 {-| Map a function from cards over a ShuffledDeck.
